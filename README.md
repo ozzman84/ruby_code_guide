@@ -57,6 +57,8 @@ Updated by: **Ozzie Osmonson**
       gem 'simplecov'
       gem 'shoulda-matchers'
       gem 'orderly'
+      gem 'factory_bot_rails'
+      gem 'faker'
     end
     ```
 
@@ -74,13 +76,22 @@ Updated by: **Ozzie Osmonson**
 
 
   * SimpleCov - Add to `spec/rails_helper.rb` (reference: [simplecov docs](https://github.com/simplecov-ruby/simplecov)):
+
     ```ruby
     # spec/rails_helper.rb
     require 'simplecov'
     SimpleCov.start
     ```
 
+  * Factory_bot methods:
+
+  ```ruby
+  # spec/rails_helper.rb
+  config.include FactoryBot::Syntax::Methods
+  ```
+
   * Shoulda-matchers - Add to the bottom of `spec/rails_helper.rb` (reference: [shoulda-matchers docs](https://github.com/thoughtbot/shoulda-matchers)):
+
     ```ruby
     # spec/rails_helper.rb
     Shoulda::Matchers.configure do |config|
@@ -165,6 +176,8 @@ Reference: [Rails Guides: AR Associations](https://guides.rubyonrails.org/v5.2/a
           it { should have_many(:orders).order('orders.fulfilled_at DESC') }
           it { should have_many(:receipts).through(:orders) }
           it { should have_many(:active_receipts).conditions('receipts.active = 1') }
+          it { should belong_to(:category).class_name('MenuCategory') }
+          it { should belong_to(:category).class_name('MenuCategory') }
        end
     end
     ```
@@ -344,13 +357,13 @@ Reference: [Rails Guides: Add Column](https://guides.rubyonrails.org/v5.2/active
    ```zsh
    # Example Structure:
 
-   $ rails generate migration AddColumnNameToTableName
+   $ rails g migration AddColumnNameToTableName
    ```
 
    ```zsh
    # Practical Example:
 
-   $ rails generate migration AddEmailToComments
+   $ rails g migration AddEmailToComments
    ```
 
 2. Open the migration file and put in the change (or to confirm it was automatically generated, if the migration name follows the form `AddXXXToYYY`).
@@ -424,7 +437,10 @@ References:[Rails Guides: AR Validations](https://guides.rubyonrails.org/v5.2/ac
     ```ruby
     # config/routes.rb
     Rails.application.routes.draw do
+      root to: 'welcome#index'
+
       get '/articles/:id', to: 'articles#show'
+
       namespace :api do
         namespace :v1 do
           resources :managers # Example Rails resources all RESTful routes
