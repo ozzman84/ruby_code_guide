@@ -171,6 +171,7 @@ Reference: [Rails Guides: AR Associations](https://guides.rubyonrails.org/v5.2/a
        describe "relationships" do
           it { should belong_to(:user) }
           it { should have_many(:comments) }
+          it { should have_and_belong_to_many(:posts) }
           it { should have_many(:users).through(:taggings) }
           it { should have_one(:profile).dependent(:destroy) }
           it { should have_many(:orders).order('orders.fulfilled_at DESC') }
@@ -178,6 +179,7 @@ Reference: [Rails Guides: AR Associations](https://guides.rubyonrails.org/v5.2/a
           it { should have_many(:active_receipts).conditions('receipts.active = 1') }
           it { should belong_to(:category).class_name('MenuCategory') }
           it { should belong_to(:category).class_name('MenuCategory') }
+          it {should accept_nested_attributes_for(:user) }
        end
     end
     ```
@@ -201,15 +203,45 @@ References: [Rails Guides: Validations](https://guides.rubyonrails.org/v5.2/acti
     # spec/models/comment_spec.rb
     require "rails_helper"
 
-    describe Comment, type: :model do
+    RSpec.describe Comment, type: :model do
       describe 'validations' do
         before { User.create(email: 'john@example.com') }
-        it { should validate_uniqueness_of(:email) }
+        it { should_not have_db_column(:admin).of_type(:boolean)
+        it { should have_db_column(:salary).
+          of_type(:decimal).
+          with_options(:precision => 10, :scale => 2) }
+        it { should have_readonly_attributes(:password) }
+        it { should have_db_index(:id) }
         it { should validate_presence_of(:title) }
-        it { should validate_presence_of(:body) }
+        it { should validate_presence_of(:name).
+          with_message(/is not optional/) }
+        it { should validate_uniqueness_of(:email) }
+        it { should validate_uniqueness_of(:keyword).with_message(/dup/) }
+        it { should validate_uniqueness_of(:email).scoped_to(:name) }
+        it { should validate_uniqueness_of(:email).
+          scoped_to(:first_name, :last_name) }
+        it { should validate_uniqueness_of(:keyword).case_insensitive }
         it { should validate_length_of(:operating_state).is_equal_to(2) }
+        it { should validate_length_of(:name).
+              is_at_least(3).
+              with_short_message(/not long enough/) }
+        it { should validate_length_of(:ssn).
+              is_equal_to(9).
+              with_message(/is invalid/) }
         it { should validate_acceptance_of(:terms) }
         it { should validate_format_of(:ssn).with(/\A\d{3}-\d{2}-\d{4}\Z/) }
+        it { should validate_format_of(:name).
+          with('12345').
+          with_message(/is not optional/) }
+        it { should validate_format_of(:name).
+          not_with('12D45').
+          with_message(/is not optional/) }
+        it { should validate_numericality_of(:age).is_greater_than(0).is_less_than(150) }
+        it { should ensure_inclusion_of(:age).in_range(0..100) }
+        it { should_not allow_mass_assignment_of(:password) }
+        it { should allow_mass_assignment_of(:first_name) }
+        it { should validate_format_of(:first_name).with("Carl") }
+        it { should validate_confirmation_of(:password) }
       end
     end
     ```
