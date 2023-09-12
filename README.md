@@ -36,11 +36,11 @@ Updated by: **Ozzie Osmonson**
 ### 1. Create Rails Application
   * From the command line, start a new rails app.  For example:  
     ```zsh
-    $ rails _5.2.6_ new project_name -T -d postgresql
+    rails _7.0.6_ new project_name -T -d postgresql -c=tailwind
     ```
   * API only application
     ```zsh
-    $ rails _5.2.6_ new project_name -T -d postgresql --api
+    rails _7.0.6_ new project_name -T -d postgresql --api
     ```
 
 
@@ -65,13 +65,13 @@ Updated by: **Ozzie Osmonson**
   * Bundle Install
 
     ```zsh
-    $ bundle install
+    bundle install
     ```
 
   * Install Rspec w/helper files
 
     ```zsh
-    $ rails g rspec:install
+    rails g rspec:install
     ```
 
 
@@ -108,24 +108,24 @@ Updated by: **Ozzie Osmonson**
 ### 3. Create Database and Resources
   * To drop, create, migrate, or seed the database in the terminal run:
     ```zsh
-    $ rails db:{drop,create,migrate,seed}
+    rails db:{drop,create,migrate,seed}
     ```
 
   * Rails Generators ([Rails Guides: AR Migrations](https://guides.rubyonrails.org/v5.2/active_record_migrations.html)) in the terminal run:
 
       * Model Generator:
         ```zsh
-        $ rails g model User title:string body:text
+        rails g model User title:string body:text
         ```
 
       * Child:
         ```zsh
-        $ rails g model Comment author_name:string body:integer user:references
+        rails g model Comment author_name:string body:integer user:references
         ```
 
       * Add a relationship post migration:
         ```zsh
-        $ rails g migration AddArticlesToComments article:references
+        rails g migration AddArticlesToComments article:references
         ```
 
         ```ruby
@@ -304,7 +304,7 @@ References: [Rails Guides: Validations](https://guides.rubyonrails.org/v5.2/acti
 * Controller Generator:
 
   ```zsh
-  $ rails g controller api/v1/Users index create update --skip-routes --no-test-framework --skip-helper --skip-template-engine
+  rails g controller api/v1/Users index create update --skip-routes --no-test-framework --skip-helper --skip-template-engine
   ```
 
 * Flags:
@@ -377,7 +377,7 @@ When you need to make an edit **after** you have migrated, you should create a *
      end
    end
    ```
-3. Run `$ rails db:migrate`.
+3. Run `rails db:migrate`.
 
 4. Check database schema file (`db/schema.rb`) to confirm the column data type has been updated.  
 
@@ -389,13 +389,13 @@ Reference: [Rails Guides: Add Column](https://guides.rubyonrails.org/v5.2/active
    ```zsh
    # Example Structure:
 
-   $ rails g migration AddColumnNameToTableName
+   rails g migration AddColumnNameToTableName
    ```
 
    ```zsh
    # Practical Example:
 
-   $ rails g migration AddEmailToComments
+   rails g migration AddEmailToComments
    ```
 
 2. Open the migration file and put in the change (or to confirm it was automatically generated, if the migration name follows the form `AddXXXToYYY`).
@@ -424,7 +424,7 @@ Reference: [Rails Guides: Add Column](https://guides.rubyonrails.org/v5.2/active
    end
    ```
 
-3. Run `$ rails db:migrate`.
+3. Run `rails db:migrate`.
 
 4. Check database schema file (`db/schema.rb`) to confirm the new column was created.   
 
@@ -497,16 +497,16 @@ References:[Rails Guides: AR Validations](https://guides.rubyonrails.org/v5.2/ac
 
   * To display all routes in the rails application run:
     ```zsh
-    $ rails routes
+    rails routes
     ```
 
   * To display all routes for a specific controller in the rails application, run:
     ```zsh
-    $ rails routes -c resource_name
+    rails routes -c resource_name
     ```
 
     ```zsh
-      $ rails routes -c articles
+    rails routes -c articles
     ```
 
 ---
