@@ -88,6 +88,9 @@ Updated by: **Ozzie Osmonson**
   ```ruby
   # spec/rails_helper.rb
   config.include FactoryBot::Syntax::Methods
+
+  # Lately I've had to add the following code to allow #visit to work in my tests
+  config.include Capybara::DSL
   ```
 
   * Shoulda-matchers - Add to the bottom of `spec/rails_helper.rb` (reference: [shoulda-matchers docs](https://github.com/thoughtbot/shoulda-matchers)):
