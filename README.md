@@ -42,6 +42,14 @@ Updated by: **Ozzie Osmonson**
     ```zsh
     rails _7.0.6_ new project_name -T -d postgresql --api
     ```
+    * Flags
+    ```zsh
+    \
+    --database=postgresql \
+    --css=tailwind \
+    --skip-test \
+    --javascript=importmap
+    ```
 
 
 ### 2. Environment Setup
